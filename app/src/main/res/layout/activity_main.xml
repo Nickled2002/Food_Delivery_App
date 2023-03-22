@@ -28,7 +28,7 @@
         android:layout_width="320dp"
         android:layout_height="50dp"
         android:layout_marginStart="47dp"
-        android:layout_marginTop="236dp"
+        android:layout_marginTop="160dp"
         android:layout_marginEnd="44dp"
         android:ems="10"
         android:hint="@string/email"
@@ -53,8 +53,8 @@
 
     <TextView
         android:id="@+id/TextButton_SignUp"
-        android:layout_width="169dp"
-        android:layout_height="48dp"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
         android:layout_marginStart="121dp"
         android:layout_marginTop="41dp"
         android:layout_marginEnd="121dp"
