@@ -6,4 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
+    <EditText
+        android:id="@+id/SignUp_Input_Email"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="46dp"
+        android:ems="10"
+        android:hint="@string/email"
+        android:importantForAutofill="no"
+        android:inputType="textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/SignUp_Button_SignUp"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="46dp"
+        android:hint="@string/sign_in"
+        android:onClick="onClick"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignUp_input_CPassword" />
+
+    <EditText
+        android:id="@+id/SignUp_input_CPassword"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="46dp"
+        android:ems="10"
+        android:hint="@string/confirm_password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignUp_Input_Password" />
+
+    <TextView
+        android:id="@+id/SignUp_TextButton_SignIn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="103dp"
+        android:clickable="true"
+        android:minHeight="48dp"
+        android:onClick="onClick"
+        android:text="@string/already_have_an_account_sign_in"
+        android:textAlignment="center"
+        android:textColor="#0F1212"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignUp_Button_SignUp" />
+
+    <EditText
+        android:id="@+id/SignUp_Input_Password"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="46dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:importantForAutofill="no"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignUp_Input_Email" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
