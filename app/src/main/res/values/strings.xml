@@ -7,4 +7,7 @@
     <string name="login">Login</string>
     <string name="dont_have_an_account_sign_up">Dont have an Account? Sign Up</string>
     <string name="already_have_an_account_sign_in">Already have an Account? Sign In</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="date_of_birth">Date Of Birth</string>
 </resources>
