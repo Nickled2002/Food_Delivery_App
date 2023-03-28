@@ -10,4 +10,10 @@
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="date_of_birth">Date Of Birth</string>
+    <string name="shop_ui">Shop Ui</string>
+    <string name="shop_image">Shop Image</string>
+    <string name="textview">TextView</string>
+    <string name="store_name">Store Name</string>
+    <string name="distance">Distance</string>
+    <string name="rating">Rating</string>
 </resources>

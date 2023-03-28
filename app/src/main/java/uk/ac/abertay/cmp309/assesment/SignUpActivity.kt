@@ -15,6 +15,9 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var Email: EditText
     private lateinit var CPassword: EditText
     private lateinit var Password: EditText
+    private lateinit var Name: EditText
+    private lateinit var Surname: EditText
+    private lateinit var DoB: EditText
     private lateinit var firebaseAuth: FirebaseAuth
 
 
@@ -27,6 +30,10 @@ class SignUpActivity : AppCompatActivity() {
         Email = findViewById(R.id.SignUp_Input_Email)
         Password = findViewById(R.id.SignUp_Input_Password)
         CPassword = findViewById(R.id.SignUp_input_CPassword)
+        Name = findViewById(R.id.SignUp_Input_Name)
+        Surname = findViewById(R.id.SignUp_Input_Surame)
+        DoB = findViewById(R.id.SignUp_Input_DoB)
+
         firebaseAuth = FirebaseAuth.getInstance()
 
     }
@@ -43,16 +50,32 @@ class SignUpActivity : AppCompatActivity() {
                     val Inemail = Email.text.toString()
                     val Inpass = Password.text.toString()
                     val Incpass = CPassword.text.toString()
-                    if (Inemail.isNotEmpty() && Inpass.isNotEmpty() && Incpass.isNotEmpty() ) {
+                    val Inname = Name.text.toString()
+                    val Insurname = Surname.text.toString()
+                    val Indob = DoB.text.toString()
+
+                    if (Inemail.isNotEmpty() && Inpass.isNotEmpty() && Incpass.isNotEmpty() && Inname.isNotEmpty() && Insurname.isNotEmpty() && Indob.isNotEmpty() ) {
                         if (Inpass == Incpass){
 
                             firebaseAuth.createUserWithEmailAndPassword(Inemail, Inpass).addOnCompleteListener{
                                 if(it.isSuccessful){
-                                    val user = FirebaseAuth.getInstance().currentUser
+                                    val user = FirebaseAuth.getInstance().currentUser?.uid
                                     val db = Firebase.firestore
-
-                                    val intent = Intent(this, MainActivity::class.java)
-                                    startActivity(intent)
+                                    val inputUser = hashMapOf(
+                                        "UserId" to user,
+                                        "Name" to Inname,
+                                        "Surname" to Insurname,
+                                        "DoB" to Indob
+                                    )
+                                    db.collection("Users").add(inputUser).addOnCompleteListener {
+                                        if(it.isSuccessful) {
+                                            val intent = Intent(this, MainActivity::class.java)
+                                            startActivity(intent)
+                                        }else
+                                        {
+                                            Toast.makeText(this, "Service offline. Please try again later.", Toast.LENGTH_LONG).show()
+                                        }
+                                    }
                                 }else{
                                     Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                                 }
