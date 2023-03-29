@@ -18,16 +18,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/Shop_List"
-        android:layout_width="347dp"
-        android:layout_height="520dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="62dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Shop_RecyclerView"
+        android:layout_width="335dp"
+        android:layout_height="561dp"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="39dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Shop_textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
