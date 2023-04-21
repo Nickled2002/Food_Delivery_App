@@ -1,9 +1,13 @@
 package uk.ac.abertay.cmp309.assesment
 
 data class Shop(
-    val Name: String,
-    val Image: String,
-    val Distance: String,
-    val Rating: String
+    val Name: String ?=null,
+    val Image: String ?=null,
+    val Distance: String ?=null,
+    val Rating: Long ?= null
+
 
 )
+{
+
+}

@@ -7,9 +7,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomAdapter(private val mList: List<Shop>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class ShopsAdapter(private val mList: ArrayList<Shop>) : RecyclerView.Adapter<ShopsAdapter.ViewHolder>() {
 
-    // create new views
+    //Inner class with initialised values
+    inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
+        val imageView: ImageView = itemView.findViewById(R.id.Shop_Image)
+        val textViewName: TextView = itemView.findViewById(R.id.ShopName_textView)
+        val textViewRating: TextView = itemView.findViewById(R.id.ShopRating_textView)
+        val textViewDistance : TextView = itemView.findViewById(R.id.ShopDist_textView)
+    }
+    //Create Views(Use inflate)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         // inflates the card_view_design view
         // that is used to hold list item
@@ -18,19 +25,18 @@ class CustomAdapter(private val mList: List<Shop>) : RecyclerView.Adapter<Custom
         return ViewHolder(view)
     }
 
-    // binds the list items to a view
+    //Populate daa in recycler
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val Shop = mList[position]
+        val shop: Shop = mList[position]
 
         // sets the image to the imageview from our itemHolder class
-
-        holder.imageView.setImageURI(Uri.parse(Shop.Image))
+        holder.imageView.setImageURI(Uri.parse(shop.Image))
 
         // sets the text to the textview from our itemHolder class
-        holder.textViewName.text = Shop.Name
-        holder.textViewRating.text = Shop.Rating
-        holder.textViewDistance.text = Shop.Distance
+        holder.textViewName.text = shop.Name
+        holder.textViewRating.text = shop.Rating.toString()
+        holder.textViewDistance.text = shop.Distance
 
     }
 
@@ -40,10 +46,5 @@ class CustomAdapter(private val mList: List<Shop>) : RecyclerView.Adapter<Custom
     }
 
     // Holds the views for adding it to image and text
-    class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.Shop_Image)
-        val textViewName: TextView = itemView.findViewById(R.id.ShopName_textView)
-        val textViewRating: TextView = itemView.findViewById(R.id.ShopRating_textView)
-        val textViewDistance : TextView = itemView.findViewById(R.id.ShopDist_textView)
-    }
+
 }
