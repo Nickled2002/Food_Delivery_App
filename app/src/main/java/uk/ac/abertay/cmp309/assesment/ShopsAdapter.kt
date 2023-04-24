@@ -1,5 +1,8 @@
 package uk.ac.abertay.cmp309.assesment
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +18,7 @@ class ShopsAdapter(private val mList: ArrayList<Shop>) : RecyclerView.Adapter<Sh
         val textViewName: TextView = itemView.findViewById(R.id.ShopName_textView)
         val textViewRating: TextView = itemView.findViewById(R.id.ShopRating_textView)
         val textViewDistance : TextView = itemView.findViewById(R.id.ShopDist_textView)
+        val textViewTRating : TextView = itemView.findViewById(R.id.ShopTRating_textView)
     }
     //Create Views(Use inflate)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,6 +41,7 @@ class ShopsAdapter(private val mList: ArrayList<Shop>) : RecyclerView.Adapter<Sh
         holder.textViewName.text = shop.Name
         holder.textViewRating.text = shop.Rating.toString()
         holder.textViewDistance.text = shop.Distance
+        holder.textViewTRating.text = "/5"
 
     }
 

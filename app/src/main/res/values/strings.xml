@@ -16,4 +16,6 @@
     <string name="store_name">Store Name</string>
     <string name="distance">Distance</string>
     <string name="rating">Rating</string>
+    <string name="_5">/5</string>
+    <string name="options_near_you">Options near you</string>
 </resources>
