@@ -5,7 +5,7 @@ data class Shop(
     val Image: String ?=null,
     val Distance: String ?=null,
     val StoreId: String ?=null,
-    val Rating: Double ?= null
+    val Rating: Double ?=null
 
 
 )
