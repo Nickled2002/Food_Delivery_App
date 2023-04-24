@@ -9,6 +9,4 @@ data class Shop(
 
 
 )
-{
 
-}
