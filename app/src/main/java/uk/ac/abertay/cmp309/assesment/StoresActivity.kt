@@ -14,10 +14,9 @@ import com.google.firebase.ktx.Firebase
 
 class StoresActivity : AppCompatActivity() {
 
-    private lateinit var  recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
     private lateinit var db : FirebaseFirestore
     private lateinit var shopsAdapter : ShopsAdapter
-    private lateinit var userListenerReg : ListenerRegistration
     private lateinit var shopsList: ArrayList<Shop>
 
     override fun onCreate(savedInstanceState: Bundle?) {
