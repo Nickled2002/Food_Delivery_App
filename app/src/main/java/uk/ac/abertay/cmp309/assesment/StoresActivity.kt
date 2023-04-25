@@ -47,7 +47,7 @@ class StoresActivity : AppCompatActivity() {
 
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
-        db.collection("Shops")
+        db.collection("Shops").orderBy("Rating",Query.Direction.DESCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot>{
                 override fun onEvent(
                     value: QuerySnapshot?,

@@ -1,8 +1,10 @@
 package uk.ac.abertay.cmp309.assesment
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,8 +21,8 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         val text: TextView = findViewById(R.id.Menu_Name)
-
         val shopsname = "LPU"
+        //val shopsname = intent.getStringExtra(SID)
         text.setText(shopsname)
         // getting the recyclerview by its id
         recyclerView = findViewById<RecyclerView>(R.id.MenuRecyclerView)
@@ -72,5 +74,10 @@ class MenuActivity : AppCompatActivity() {
 
 
 
+    }
+
+    fun onclick(view: View) {
+        val intent = Intent(this, StoresActivity::class.java)
+        startActivity(intent)
     }
 }

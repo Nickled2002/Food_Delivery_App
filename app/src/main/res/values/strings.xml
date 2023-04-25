@@ -21,4 +21,8 @@
     <string name="food">Food</string>
     <string name="item_name">Item Name</string>
     <string name="description">Description</string>
+    <string name="store_name_menu">Store Name</string>
+    <string name="s_menu">\'s Menu</string>
+    <string name="back">Back</string>
+    <string name="checkout">Checkout</string>
 </resources>
