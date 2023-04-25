@@ -4,6 +4,7 @@ data class Item(
     val Name: String ?=null,
     val Image: String ?=null,
     val Description: String ?=null,
+    val Id: String ?=null,
     val Price: Double ?=null
 
 )

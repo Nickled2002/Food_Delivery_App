@@ -30,7 +30,7 @@ class StoresActivity : AppCompatActivity() {
 
         //initialise shops
         shopsList = arrayListOf()
-        shopsAdapter = ShopsAdapter(shopsList, onClickListener = {view, shop -> val intent = Intent(this, MenuActivity::class.java); intent.putExtra("Id",shop.StoreId); intent.putExtra("Name",shop.Name);startActivity(intent)  })
+        shopsAdapter = ShopsAdapter(shopsList, onClickListener = {view, shop -> val intent = Intent(this, MenuActivity::class.java); intent.putExtra("Id",shop.StoreId); intent.putExtra("Name",shop.Name);intent.putExtra("Id2",shop.StoreId); intent.putExtra("Name2",shop.Name);startActivity(intent)  })
 
         //attach Adapter with the recyclerview
         recyclerView.adapter = shopsAdapter

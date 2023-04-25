@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.concurrent.Executors
 
-class ItemsAdapter (private val mList: ArrayList<Item>) : RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
+class ItemsAdapter (private val mList: ArrayList<Item>, val onClickListener: (Item) -> Unit) : RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
 
         val imageView: ImageView = itemView.findViewById(R.id.Item_Image)
@@ -74,9 +74,7 @@ class ItemsAdapter (private val mList: ArrayList<Item>) : RecyclerView.Adapter<I
         holder.textViewDesc.text = item.Description
         holder.textViewPrice.text = item.Price.toString()
         holder.textViewPound.text = "€"
-        holder.itemView.setOnClickListener {
-
-        }
+        holder.itemView.setOnClickListener {view -> onClickListener.invoke(item)}
     }
 
 }

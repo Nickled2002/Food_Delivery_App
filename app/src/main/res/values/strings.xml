@@ -25,4 +25,7 @@
     <string name="s_menu">\'s Menu</string>
     <string name="back">Back</string>
     <string name="checkout">Checkout</string>
+    <string name="basket">Basket</string>
+    <string name="_10">10</string>
+    <string name="euro">€</string>
 </resources>
