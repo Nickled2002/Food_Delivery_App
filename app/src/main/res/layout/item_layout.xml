@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/Item_Image"
         android:layout_width="182dp"
-        android:layout_height="match_parent"
+        android:layout_height="130dp"
         android:contentDescription="@string/food"
         tools:srcCompat="@tools:sample/avatars" />
 

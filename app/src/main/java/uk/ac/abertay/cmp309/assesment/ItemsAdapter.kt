@@ -73,7 +73,7 @@ class ItemsAdapter (private val mList: ArrayList<Item>) : RecyclerView.Adapter<I
         holder.textViewName.text = item.Name
         holder.textViewDesc.text = item.Description
         holder.textViewPrice.text = item.Price.toString()
-        holder.textViewPound.text = "£"
+        holder.textViewPound.text = "€"
         holder.itemView.setOnClickListener {
 
         }

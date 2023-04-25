@@ -21,9 +21,9 @@ class MenuActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         val text: TextView = findViewById(R.id.Menu_Name)
-        val shopsname = "LPU"
-        //val shopsname = intent.getStringExtra(SID)
-        text.setText(shopsname)
+        val shopsid = intent.getStringExtra("Id")
+
+        text.setText(intent.getStringExtra("Name"))
         // getting the recyclerview by its id
         recyclerView = findViewById<RecyclerView>(R.id.MenuRecyclerView)
         //set layout manager to position items
@@ -38,38 +38,40 @@ class MenuActivity : AppCompatActivity() {
         //attach Adapter with the recyclerview
         recyclerView.adapter = itemsAdapter
 
-        EventChangeListener(shopsname)
+        EventChangeListener(shopsid)
     }
 
-    private fun EventChangeListener(shopId: String ) {
+    private fun EventChangeListener(shopId: String? ) {
         db = FirebaseFirestore.getInstance()
-        db.collection("Menus").document(shopId).collection("Items")
-            .addSnapshotListener(object : EventListener<QuerySnapshot> {
-                override fun onEvent(
-                    value: QuerySnapshot?,
-                    error: FirebaseFirestoreException?)
-                {
-                    if (error != null){
+        if (shopId != null) {
+            db.collection("Menus").document(shopId).collection("Items")
+                .addSnapshotListener(object : EventListener<QuerySnapshot> {
+                    override fun onEvent(
+                        value: QuerySnapshot?,
+                        error: FirebaseFirestoreException?)
+                    {
+                        if (error != null){
 
-                        Log.e("Error",error.message.toString())
-                        return
-                    }
-
-                    for (dc : DocumentChange in value?.documentChanges!!){
-
-                        if (dc.type == DocumentChange.Type.ADDED){
-
-                            itemsList.add(dc.document.toObject(Item::class.java))
-
+                            Log.e("Error",error.message.toString())
+                            return
                         }
+
+                        for (dc : DocumentChange in value?.documentChanges!!){
+
+                            if (dc.type == DocumentChange.Type.ADDED){
+
+                                itemsList.add(dc.document.toObject(Item::class.java))
+
+                            }
+                        }
+
+                        itemsAdapter.notifyDataSetChanged()
+
                     }
 
-                    itemsAdapter.notifyDataSetChanged()
 
-                }
-
-
-            })
+                })
+        }
 
 
 
