@@ -118,6 +118,7 @@ class MenuActivity : AppCompatActivity() {
             val intent2 = Intent(this, BasketActivity::class.java)
             intent2.putExtra("Id", id )
             intent2.putExtra("Name", name )
+            intent2.putExtra("Count",itemCount)
             startActivity(intent2)
         }
 

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.*
@@ -25,17 +26,49 @@ class BasketActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
 
-
+        val count = intent.getIntExtra("Count",0)
 
         //initialise shops
         itemsList = arrayListOf()
-        basketAdapter = BasketAdapter(itemsList, onClickListener = {})
+        basketAdapter = BasketAdapter(itemsList, onClickListener = {
+                basket -> RemoveFromBasket(basket,count)
+        })
 
         //attach Adapter with the recyclerview
         recyclerView.adapter = basketAdapter
 
 
         EventChangeListener()
+    }
+    private fun RemoveFromBasket(basket: Basket, count: Int ) {
+        basket.ItemId?.let {
+            db.collection("Basket").document(it)
+                .delete()
+                .addOnSuccessListener {
+                    if (count==1)
+                    {
+                        val intent3 = Intent(this, StoresActivity::class.java)
+                        startActivity(intent3)
+                    }
+                    else
+                    {
+                        if (count>1)
+                        {
+                            val id = intent.getStringExtra("Id2")
+                            val name = intent.getStringExtra("Name2")
+                            val intent2 = Intent(this, BasketActivity::class.java)
+                            intent2.putExtra("Id", id )
+                            intent2.putExtra("Name", name )
+                            intent2.putExtra("Count",count)
+                            startActivity(intent2)
+                        }
+                    }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
+                }
+        }
+
     }
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
