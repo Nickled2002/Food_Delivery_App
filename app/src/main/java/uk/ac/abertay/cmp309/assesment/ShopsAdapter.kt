@@ -12,7 +12,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import java.util.concurrent.Executors
 
-class ShopsAdapter(private val mList: ArrayList<Shop>) : RecyclerView.Adapter<ShopsAdapter.ViewHolder>() {
+class ShopsAdapter(private val mList: ArrayList<Shop>, val onClickListener: (View,Shop) -> Unit) : RecyclerView.Adapter<ShopsAdapter.ViewHolder>() {
+
     //Inner class with initialised values
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
 
@@ -64,14 +65,11 @@ class ShopsAdapter(private val mList: ArrayList<Shop>) : RecyclerView.Adapter<Sh
         }
 
         // sets the text to the textview from our itemHolder class
-
         holder.textViewName.text = shop.Name
         holder.textViewRating.text = shop.Rating.toString()
         holder.textViewDistance.text = shop.Distance
         holder.textViewTRating.text = "/5"
-        holder.itemView.setOnClickListener {
-
-        }
+        holder.itemView.setOnClickListener {view -> onClickListener.invoke(view, shop)}
 
 
 
@@ -82,6 +80,7 @@ class ShopsAdapter(private val mList: ArrayList<Shop>) : RecyclerView.Adapter<Sh
     override fun getItemCount(): Int {
         return mList.size
     }
+
 
 
 }
