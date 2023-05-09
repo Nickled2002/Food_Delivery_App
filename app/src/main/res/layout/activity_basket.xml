@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:backgroundTint="#FFFFFF"
     android:orientation="vertical"
     tools:context=".BasketActivity">
 
@@ -52,29 +54,19 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/Basket_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="148dp"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="149dp"
-            android:background="#DC1515"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:onClick="onClickC"
-            android:text="@string/checkout"
-            app:iconTint="#EF0B0B"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/googlePayButton"
+            layout="@layout/buy_with_googlepay_button"
+            android:layout_width="294dp"
+            android:layout_height="158dp"
+            tools:layout_editor_absoluteX="58dp"
+            tools:layout_editor_absoluteY="44dp" />
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </LinearLayout>

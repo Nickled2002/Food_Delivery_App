@@ -56,10 +56,11 @@ class BasketActivity : AppCompatActivity() {
                         {
                             val id = intent.getStringExtra("Id2")
                             val name = intent.getStringExtra("Name2")
+                            val ncount = count - 1
                             val intent2 = Intent(this, BasketActivity::class.java)
                             intent2.putExtra("Id", id )
                             intent2.putExtra("Name", name )
-                            intent2.putExtra("Count",count)
+                            intent2.putExtra("Count",ncount)
                             startActivity(intent2)
                         }
                     }
