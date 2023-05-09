@@ -112,7 +112,4 @@ class BasketActivity : AppCompatActivity() {
 
     }
 
-    fun onClickC(view: View) {
-
-    }
 }
