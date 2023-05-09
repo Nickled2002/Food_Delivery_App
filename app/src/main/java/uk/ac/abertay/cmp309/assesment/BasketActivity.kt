@@ -2,31 +2,30 @@ package uk.ac.abertay.cmp309.assesment
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.wallet.IsReadyToPayRequest
-import com.google.android.gms.wallet.PaymentsClient
-import com.google.android.gms.wallet.Wallet
-import com.google.android.gms.wallet.WalletConstants
+import com.google.android.gms.wallet.*
 import com.google.firebase.firestore.*
-import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
-class BasketActivity : AppCompatActivity() {
+
+
+class BasketActivity : Activity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var db : FirebaseFirestore
     private lateinit var basketAdapter : BasketAdapter
     private lateinit var itemsList: ArrayList<Basket>
     private lateinit var paymentsClient: PaymentsClient
-    private lateinit var gbutton : Button
+    private lateinit var gbutton : RelativeLayout
+    private val LPD_REQUEST_CODE = 991
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,33 +42,26 @@ class BasketActivity : AppCompatActivity() {
         //initialise shops
         itemsList = arrayListOf()
         basketAdapter = BasketAdapter(itemsList, onClickListener = {
-                basket -> RemoveFromBasket(basket,count)
+                basket -> removeFromBasket(basket,count)
         })
 
         //attach Adapter with the recyclerview
         recyclerView.adapter = basketAdapter
 
 
-        EventChangeListener()
+        eventChangeListener()
 
-        paymentsClient = createPaymentsClient(this)
+        paymentsClient = PaymentsProcess.createPaymentsClient(this)
 
-        val readyToPayRequest =
-            IsReadyToPayRequest.fromJson(baseRequest.toString())
+        isGooglePayAvailable()
+        gbutton.isClickable = true
+        //gbutton.setOnClickListener { requestPayment() }
 
-        val readyToPayTask = paymentsClient.isReadyToPay(readyToPayRequest)
-        readyToPayTask.addOnCompleteListener { task ->
-            try {
-                task.getResult(ApiException::class.java)?.let(::setGooglePayAvailable)
-            } catch (exception: ApiException) {
-                // Error determining readiness to use Google Pay.
-                Toast.makeText(this,"Please try again later",Toast.LENGTH_SHORT).show()
-            }
-        }
+
 
 
     }
-    private fun RemoveFromBasket(basket: Basket, count: Int ) {
+    private fun removeFromBasket(basket: Basket, count: Int ) {
         basket.ItemId?.let {
             db.collection("Basket").document(it)
                 .delete()
@@ -100,7 +92,7 @@ class BasketActivity : AppCompatActivity() {
         }
 
     }
-    private fun EventChangeListener() {
+    private fun eventChangeListener() {
         db = FirebaseFirestore.getInstance()
         db.collection("Basket")
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
@@ -140,81 +132,103 @@ class BasketActivity : AppCompatActivity() {
         startActivity(intent2)
 
     }
+    //Determining if button is available to be shown
+    private fun isGooglePayAvailable() {
+        val isReadyToPayJson = PaymentsProcess.isReadyToPayRequest() ?: return
+        val request = IsReadyToPayRequest.fromJson(isReadyToPayJson.toString()) ?: return
 
-    fun createPaymentsClient(activity: Activity): PaymentsClient {
-        val walletOptions = Wallet.WalletOptions.Builder()
-            .setEnvironment(WalletConstants.ENVIRONMENT_TEST).build()
-        return Wallet.getPaymentsClient(activity, walletOptions)
-    }
-
-    private val baseRequest = JSONObject().apply {
-        put("apiVersion", 2)
-        put("apiVersionMinor", 0)
-        put("allowedPaymentMethods",  JSONArray().put(baseCardPaymentMethod()))
-    }
-
-    private val allowedCardNetworks = JSONArray(listOf(
-        "VISA",
-        "MASTERCARD"))
-
-    private val allowedCardAuthMethods = JSONArray(listOf(
-        "PAN_ONLY",
-        "CRYPTOGRAM_3DS"))
-
-    private fun baseCardPaymentMethod(): JSONObject {
-        return JSONObject().apply {
-
-            val parameters = JSONObject().apply {
-                put("allowedAuthMethods", allowedCardAuthMethods)
-                put("allowedCardNetworks", allowedCardNetworks)
-                put("billingAddressRequired", true)
-                put("billingAddressParameters", JSONObject().apply {
-                    put("format", "FULL")
-                })
+        val task = paymentsClient.isReadyToPay(request)
+        task.addOnCompleteListener { completedTask ->
+            try {
+                completedTask.getResult(ApiException::class.java)?.let(::setGooglePayAvailable)
+            } catch (exception: ApiException) {
+                // Process error
+                Log.w("isReadyToPay failed", exception)
             }
-
-            put("type", "CARD")
-            put("parameters", parameters)
         }
+
     }
 
     private fun setGooglePayAvailable(available: Boolean) {
         if (available) {
             gbutton.visibility = View.VISIBLE
-            gbutton.setOnClickListener { requestPayment() }
         } else {
-            Toast.makeText(this,"Please try again later",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"Google Pay is not available on this device", Toast.LENGTH_LONG).show()
         }
     }
 
-    //This is where you can add the gateway and merchant id to an account but for the assignment example will provide dummy values
-    private val tokenizationSpecification = JSONObject().apply {
-        put("type", "PAYMENT_GATEWAY")
-        put("parameters", JSONObject(mapOf(
-            "gateway" to "example",
-            "gatewayMerchantId" to "exampleGatewayMerchantId")))
-    }
-
-    private val cardPaymentMethod = JSONObject().apply {
-        put("type", "CARD")
-        put("tokenizationSpecification", tokenizationSpecification)
-        put("parameters", JSONObject().apply {
-            put("allowedCardNetworks", JSONArray(listOf("VISA", "MASTERCARD")))
-            put("allowedAuthMethods", JSONArray(listOf("PAN_ONLY", "CRYPTOGRAM_3DS")))
-            put("billingAddressRequired", true)
-            put("billingAddressParameters", JSONObject(mapOf("format" to "FULL")))
-        })
-    }
-    //This is where you change the values
-    private val transactionInfo = JSONObject().apply {
-        put("totalPrice", "123.45")
-        put("totalPriceStatus", "FINAL")
-        put("currencyCode", "EUR")
-    }
 
     private fun requestPayment() {
-        // TODO: Perform transaction
+        gbutton.isClickable = false
+        val totalPrice : Long = 0 //TODO: Get Total Price
+
+        val paymentDataRequestJson = PaymentsProcess.getRequestJson(totalPrice)
+        if (paymentDataRequestJson == null) {
+            Toast.makeText(this,"Can't fetch payment data request", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
+        if (request != null) {
+            AutoResolveHelper.resolveTask(
+                paymentsClient.loadPaymentData(request), this, LPD_REQUEST_CODE)
+        }
     }
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            // Value passed in AutoResolveHelper
+            LPD_REQUEST_CODE -> {
+                when (resultCode) {
+                    RESULT_OK ->
+                        data?.let { intent ->
+                            PaymentData.getFromIntent(intent)?.let(::handleSuccess)
+                        }
+
+                    RESULT_CANCELED -> {
+                        // The user cancelled the payment attempt
+                    }
+
+                    AutoResolveHelper.RESULT_ERROR -> {
+                        AutoResolveHelper.getStatusFromIntent(data)?.let {
+                            handleFailure(it.statusCode)
+                        }
+                    }
+                }
+
+                // Re-enables the Google Pay payment button.
+                gbutton.isClickable = true
+            }
+
+        }
+    }
+
+    private fun handleSuccess(paymentData: PaymentData) {
+        val paymentInformation = paymentData.toJson() ?: return
+
+        try {
+            // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
+            val paymentMethodData = JSONObject(paymentInformation).getJSONObject("paymentMethodData")
+            val billingName = paymentMethodData.getJSONObject("info")
+                .getJSONObject("billingAddress").getString("name")
+            Log.d("BillingName", billingName)
+
+            //TODO: new activity and add to firestore as orders empty basket
+
+            // Logging token string.
+            Log.d("GooglePaymentToken", paymentMethodData
+                .getJSONObject("tokenizationData")
+                .getString("token"))
+
+        } catch (e: JSONException) {
+            Log.e("handlePaymentSuccess", "Error: " + e.toString())
+        }
+
+
+
+    }
+    private fun handleFailure(statusCode: Int) {
+        Log.w("loadPaymentData failed", String.format("Error code: %d", statusCode))
+    }
+
 
 
 
