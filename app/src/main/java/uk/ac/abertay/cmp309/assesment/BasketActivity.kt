@@ -226,6 +226,7 @@ class BasketActivity : Activity() {
         val intent2 = Intent(this, PlacedActivity::class.java)
         intent2.putExtra("Id", id )
         intent2.putExtra("Name", name )
+        intent2.putExtra("Submit",false)
         startActivity(intent2)
         db = FirebaseFirestore.getInstance()
         db.collection("Basket").document("Items").collection("Items")

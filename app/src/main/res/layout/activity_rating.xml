@@ -54,15 +54,12 @@
     </LinearLayout>
 
     <RatingBar
-        android:id="@+id/rating"
-        style="?android:attr/ratingBarStyleSmall"
+        android:id="@+id/Rating_Bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="144dp"
+        android:layout_marginStart="65dp"
         android:layout_marginTop="40dp"
-        android:isIndicator="true"
-        android:numStars="5"
-        android:stepSize="0.1"
+        android:progressTint="@color/main_red"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
@@ -72,17 +69,20 @@
         android:layout_height="50dp"
         android:layout_marginStart="75dp"
         android:layout_marginTop="40dp"
+        android:onClick="onclickRate"
         android:text="@string/submit_rating"
+        android:background="@color/main_red"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating" />
+        app:layout_constraintTop_toBottomOf="@+id/Rating_Bar" />
 
     <Button
         android:id="@+id/Rating_Cancel_Button"
         android:layout_width="165dp"
         android:layout_height="48dp"
         android:layout_marginStart="103dp"
-        android:layout_marginTop="20dp"
-        android:text="@android:string/cancel"
+        android:layout_marginTop="60dp"
+        android:onClick="onclickCancel"
+        android:text="@string/back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Rating_Button" />
 

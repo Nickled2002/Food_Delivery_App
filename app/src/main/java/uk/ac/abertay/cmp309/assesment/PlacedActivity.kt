@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 
 class PlacedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,12 +20,19 @@ class PlacedActivity : AppCompatActivity() {
 
     }
     fun onclickRate(view: View) {
-        var id = intent.getStringExtra("Id")
-        val name = intent.getStringExtra("Name")
-        val intent3 = Intent(this, RatingActivity::class.java)
-        intent3.putExtra("Id", id )
-        intent3.putExtra("Name", name )
-        startActivity(intent3)
+        var submit = intent.getBooleanExtra("Submit", false)
+        if (submit)
+        {
+            Toast.makeText(this, "Rating already submitted.", Toast.LENGTH_SHORT).show()
+        }else {
+            var id = intent.getStringExtra("Id")
+            val name = intent.getStringExtra("Name")
+            val intent3 = Intent(this, RatingActivity::class.java)
+            intent3.putExtra("Id", id)
+            intent3.putExtra("Name", name)
+            startActivity(intent3)
+        }
+
 
     }
 }
