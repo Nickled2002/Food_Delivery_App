@@ -18,6 +18,8 @@ class MenuActivity : AppCompatActivity() {
     private lateinit var itemsAdapter : ItemsAdapter
     private lateinit var itemsList: ArrayList<Item>
     private var itemCount = 0
+    private var totalPrice = 0.0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,11 +52,12 @@ class MenuActivity : AppCompatActivity() {
         )
 
         item.Id?.let {
-            db.collection("Basket").document(it)
+            db.collection("Basket").document("Items").collection("Items").document(it)
                 .set(itemadd)
                 .addOnSuccessListener {
                     Toast.makeText(this,"Item added to basket",Toast.LENGTH_SHORT).show()
                     itemCount++
+                    totalPrice = totalPrice + item.Price!!
                 }
                 .addOnFailureListener {
                     Toast.makeText(this,"Please try another again later",Toast.LENGTH_SHORT).show()
@@ -113,13 +116,25 @@ class MenuActivity : AppCompatActivity() {
         }
         else
         {
-            val id = intent.getStringExtra("Id2")
-            val name = intent.getStringExtra("Name2")
-            val intent2 = Intent(this, BasketActivity::class.java)
-            intent2.putExtra("Id", id )
-            intent2.putExtra("Name", name )
-            intent2.putExtra("Count",itemCount)
-            startActivity(intent2)
+            val priceadd = hashMapOf(
+                "TotalPrice" to totalPrice
+            )
+
+            db.collection("Basket").document("Total")
+                .set(priceadd)
+                .addOnSuccessListener {
+                    val id = intent.getStringExtra("Id2")
+                    val name = intent.getStringExtra("Name2")
+                    val intent2 = Intent(this, BasketActivity::class.java)
+                    intent2.putExtra("Id", id )
+                    intent2.putExtra("Name", name )
+                    intent2.putExtra("Count",itemCount)
+                    startActivity(intent2)
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this,"Basket unavailable. Try again later",Toast.LENGTH_SHORT).show()
+                }
+
         }
 
     }

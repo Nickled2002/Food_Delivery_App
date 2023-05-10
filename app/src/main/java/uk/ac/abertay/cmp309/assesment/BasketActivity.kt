@@ -5,7 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.RelativeLayout
+import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,8 +25,10 @@ class BasketActivity : Activity() {
     private lateinit var basketAdapter : BasketAdapter
     private lateinit var itemsList: ArrayList<Basket>
     private lateinit var paymentsClient: PaymentsClient
-    private lateinit var gbutton : RelativeLayout
+    private lateinit var gbutton : ImageButton
+    private var totalPrice : Double = 0.0
     private val LPD_REQUEST_CODE = 991
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +39,20 @@ class BasketActivity : Activity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.setHasFixedSize(true)
         gbutton = findViewById(R.id.googlePayButton)
-
+        val text: TextView = findViewById(R.id.Basket_Price_Num)
         val count = intent.getIntExtra("Count",0)
+        db = FirebaseFirestore.getInstance()
+        db.collection("Basket").document("Total").get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val document = task.result
+                totalPrice = document.get("TotalPrice") as Double
+                text.setText(totalPrice.toString())
+            } else {
+                Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
 
         //initialise shops
         itemsList = arrayListOf()
@@ -53,9 +68,12 @@ class BasketActivity : Activity() {
 
         paymentsClient = PaymentsProcess.createPaymentsClient(this)
 
+        gbutton.isClickable = false
+
         isGooglePayAvailable()
-        gbutton.isClickable = true
-        //gbutton.setOnClickListener { requestPayment() }
+
+
+        gbutton.setOnClickListener { requestPayment() }
 
 
 
@@ -63,9 +81,10 @@ class BasketActivity : Activity() {
     }
     private fun removeFromBasket(basket: Basket, count: Int ) {
         basket.ItemId?.let {
-            db.collection("Basket").document(it)
+            db.collection("Basket").document("Items").collection("Items").document(it)
                 .delete()
                 .addOnSuccessListener {
+                    totalPrice = totalPrice - basket.Price!!
                     if (count==1)
                     {
                         val intent3 = Intent(this, StoresActivity::class.java)
@@ -94,7 +113,7 @@ class BasketActivity : Activity() {
     }
     private fun eventChangeListener() {
         db = FirebaseFirestore.getInstance()
-        db.collection("Basket")
+        db.collection("Basket").document("Items").collection("Items")
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
                 override fun onEvent(
                     value: QuerySnapshot?,
@@ -151,7 +170,7 @@ class BasketActivity : Activity() {
 
     private fun setGooglePayAvailable(available: Boolean) {
         if (available) {
-            gbutton.visibility = View.VISIBLE
+            gbutton.isClickable = true
         } else {
             Toast.makeText(this,"Google Pay is not available on this device", Toast.LENGTH_LONG).show()
         }
@@ -160,7 +179,7 @@ class BasketActivity : Activity() {
 
     private fun requestPayment() {
         gbutton.isClickable = false
-        val totalPrice : Long = 0 //TODO: Get Total Price
+        val totalPrice : Double = totalPrice
 
         val paymentDataRequestJson = PaymentsProcess.getRequestJson(totalPrice)
         if (paymentDataRequestJson == null) {
@@ -202,9 +221,21 @@ class BasketActivity : Activity() {
     }
 
     private fun handleSuccess(paymentData: PaymentData) {
+        val id = intent.getStringExtra("Id")
+        val name = intent.getStringExtra("Name")
+        val intent2 = Intent(this, PlacedActivity::class.java)
+        intent2.putExtra("Id", id )
+        intent2.putExtra("Name", name )
+        startActivity(intent2)
+
         val paymentInformation = paymentData.toJson() ?: return
 
         try {
+            /*val Ordersadd = hashMapOf(
+                "Name" to ,
+                "Price" to item.Price,
+                "ItemId" to item.Id
+            )*/
             // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
             val paymentMethodData = JSONObject(paymentInformation).getJSONObject("paymentMethodData")
             val billingName = paymentMethodData.getJSONObject("info")

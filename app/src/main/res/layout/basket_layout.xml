@@ -10,8 +10,8 @@
         android:id="@+id/Basket_Remove"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_trash"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:contentDescription="@string/trash"
+        android:src="@drawable/ic_trash" />
 
     <TextView
         android:id="@+id/BasketName_textView"

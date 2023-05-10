@@ -34,10 +34,10 @@ class BasketAdapter (private val mList: ArrayList<Basket>, val onClickListener: 
             val basket: Basket = mList[position]
 
             // sets the text to the textview from our itemHolder class
-            holder.textViewName.text = basket.Name
-            holder.textViewPrice.text = basket.Price.toString()
-            holder.textViewEuro.text = "€"
-            holder.removeButton.setOnClickListener {view -> onClickListener.invoke(basket)}
+                holder.textViewName.text = basket.Name
+                holder.textViewPrice.text = basket.Price.toString()
+                holder.textViewEuro.text = "€"
+                holder.removeButton.setOnClickListener { view -> onClickListener.invoke(basket) }
         }
 
         override fun getItemCount(): Int {

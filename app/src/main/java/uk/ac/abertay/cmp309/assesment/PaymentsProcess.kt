@@ -96,7 +96,7 @@ object PaymentsProcess {
 
     }
 
-    fun getRequestJson(price: Long): JSONObject? {
+    fun getRequestJson(price: Double): JSONObject? {
         return try {
             baseRequest.apply {
                 put("allowedPaymentMethods", JSONArray().put(cardPaymentMethod()))
