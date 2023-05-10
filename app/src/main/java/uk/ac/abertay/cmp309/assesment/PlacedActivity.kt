@@ -14,8 +14,8 @@ class PlacedActivity : AppCompatActivity() {
         text.setText(intent.getStringExtra("Name"))
     }
     fun onclickHome(view: View) {
-        val intent = Intent(this, StoresActivity::class.java)
-        startActivity(intent)
+        val intent2 = Intent(applicationContext, StoresActivity::class.java)
+        startActivity(intent2)
 
     }
     fun onclickRate(view: View) {

@@ -31,8 +31,12 @@ object PaymentsProcess {
     }
     //Determine the networks allowed
     private val allowedCardNetworks = JSONArray(listOf(
-        "VISA",
-        "MASTERCARD"))
+        "AMEX",
+        "DISCOVER",
+        "INTERAC",
+        "JCB",
+        "MASTERCARD",
+        "VISA"))
     //Determine the cards auth methods
     private val allowedCardAuthMethods = JSONArray(listOf(
         "PAN_ONLY",

@@ -12,8 +12,12 @@ class DeclineActivity : AppCompatActivity() {
     }
 
     fun onclickRetry(view: View) {
-        val intent = Intent(this, StoresActivity::class.java)
-        startActivity(intent)
+        val id = intent.getStringExtra("Id")
+        val name = intent.getStringExtra("Name")
+        val intent2 = Intent(this, MenuActivity::class.java)
+        intent2.putExtra("Id", id )
+        intent2.putExtra("Name", name )
+        startActivity(intent2)
 
     }
 }

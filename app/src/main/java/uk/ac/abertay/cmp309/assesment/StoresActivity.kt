@@ -38,16 +38,6 @@ class StoresActivity : AppCompatActivity() {
 
         EventChangeListener()
 
-
-
-
-
-
-
-
-
-
-
     }
 
     private fun EventChangeListener() {

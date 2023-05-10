@@ -203,12 +203,12 @@ class BasketActivity : Activity() {
                         }
 
                     RESULT_CANCELED -> {
-                        // The user cancelled the payment attempt
+                        handleFailure()
                     }
 
                     AutoResolveHelper.RESULT_ERROR -> {
                         AutoResolveHelper.getStatusFromIntent(data)?.let {
-                            handleFailure(it.statusCode)
+                            handleFailure()
                         }
                     }
                 }
@@ -227,6 +227,16 @@ class BasketActivity : Activity() {
         intent2.putExtra("Id", id )
         intent2.putExtra("Name", name )
         startActivity(intent2)
+        db = FirebaseFirestore.getInstance()
+        db.collection("Basket").document("Items").collection("Items")
+            .whereNotEqualTo("Name",null)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val docId = document.id
+                    db.collection("Basket").document("Items").collection("Items").document(docId).delete()
+                }
+            }
 
         val paymentInformation = paymentData.toJson() ?: return
 
@@ -256,8 +266,13 @@ class BasketActivity : Activity() {
 
 
     }
-    private fun handleFailure(statusCode: Int) {
-        Log.w("loadPaymentData failed", String.format("Error code: %d", statusCode))
+    private fun handleFailure() {
+        val id = intent.getStringExtra("Id")
+        val name = intent.getStringExtra("Name")
+        val intent3 = Intent(this, DeclineActivity::class.java)
+        intent3.putExtra("Id", id )
+        intent3.putExtra("Name", name )
+        startActivity(intent3)
     }
 
 
