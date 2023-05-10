@@ -55,7 +55,7 @@
         android:layout_width="300dp"
         android:layout_height="48dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:onClick="onclickHome"
         android:text="@string/home"
         app:layout_constraintStart_toStartOf="parent"

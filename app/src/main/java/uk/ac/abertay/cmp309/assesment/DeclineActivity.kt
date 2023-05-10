@@ -20,4 +20,10 @@ class DeclineActivity : AppCompatActivity() {
         startActivity(intent2)
 
     }
+
+    fun onclickHome(view: View) {
+        val intent = Intent(this, StoresActivity::class.java)
+        startActivity(intent)
+
+    }
 }

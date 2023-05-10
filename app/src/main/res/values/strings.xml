@@ -28,7 +28,7 @@
     <string name="basket">Basket</string>
     <string name="_10">10</string>
     <string name="euro">€</string>
-    <string name="your_order_has_been_declined_your_account_will_not_be_charged">Your order has been declined. Your account will not be charged.</string>
+    <string name="your_order_has_been_declined_your_account_will_not_be_charged">Your order has been declined.\nYour account will not be charged.</string>
     <string name="the_order_has_been_declined">Order declined</string>
     <string name="retry_order">Retry order</string>
     <string name="order_accepted">Order Accepted</string>
@@ -39,4 +39,7 @@
     <string name="total_price">Total Price:</string>
     <string name="pay">Pay</string>
     <string name="trash">trash</string>
+    <string name="please_rate_your_experience">Please rate your experience</string>
+    <string name="submit_rating">Submit Rating</string>
+    <string name="with">with:</string>
 </resources>

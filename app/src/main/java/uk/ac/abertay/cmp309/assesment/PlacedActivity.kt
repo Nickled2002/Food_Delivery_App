@@ -19,7 +19,12 @@ class PlacedActivity : AppCompatActivity() {
 
     }
     fun onclickRate(view: View) {
-        //TODO: get restaurant id from old page
+        var id = intent.getStringExtra("Id")
+        val name = intent.getStringExtra("Name")
+        val intent3 = Intent(this, RatingActivity::class.java)
+        intent3.putExtra("Id", id )
+        intent3.putExtra("Name", name )
+        startActivity(intent3)
 
     }
 }

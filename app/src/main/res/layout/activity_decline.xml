@@ -10,7 +10,7 @@
         android:id="@+id/Decline_Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="99dp"
         android:text="@string/the_order_has_been_declined"
         android:textSize="30sp"
@@ -20,8 +20,8 @@
     <TextView
         android:id="@+id/Decline_Explain_Text"
         android:layout_width="302dp"
-        android:layout_height="92dp"
-        android:layout_marginStart="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="59dp"
         android:text="@string/your_order_has_been_declined_your_account_will_not_be_charged"
@@ -34,13 +34,21 @@
         android:id="@+id/Decline_Button"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginEnd="106dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="48dp"
         android:onClick="onclickRetry"
         android:text="@string/retry_order"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Decline_Explain_Text" />
+
+    <Button
+        android:id="@+id/Decline_Home_Button"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:onClick="onclickHome"
+        android:text="@string/home"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Decline_Button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
