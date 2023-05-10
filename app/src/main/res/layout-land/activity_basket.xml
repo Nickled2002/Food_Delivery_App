@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BasketActivity">
+
+
+    <ImageButton
+        android:id="@+id/BasketimageButton"
+        android:layout_width="76dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="1dp"
+        android:contentDescription="@string/back"
+        android:onClick="onclickBack"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/ic_arrow" />
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="352dp"
+        android:layout_height="53dp"
+        android:layout_marginStart="40dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@+id/BasketimageButton"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/Basket"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/basket"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+
+    <!--    <include-->
+<!--        android:id="@+id/googlePayButton"-->
+<!--        layout="@layout/buy_with_googlepay_button"-->
+<!--        android:layout_width="294dp"-->
+<!--        android:layout_height="158dp"-->
+<!--        android:layout_marginStart="40dp"-->
+<!--        android:layout_marginBottom="20dp"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/BasketRecyclerView"
+        android:layout_width="234dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="188dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="320dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/BasketRecyclerView">
+
+        <TextView
+            android:id="@+id/Basket_Price_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/total_price" />
+
+        <TextView
+            android:id="@+id/Basket_Price_Num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:text="@string/price" />
+
+        <TextView
+            android:id="@+id/Basket_Price_Eur"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/euro" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/googlePayButton"
+        android:layout_width="330dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="200dp"
+        android:layout_marginEnd="201dp"
+        android:layout_marginBottom="6dp"
+        android:background="#100606"
+        android:contentDescription="@string/pay"
+        android:src="@drawable/buy_with_googlepay_button_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUpActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/SignUp_Input_Email"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="46dp"
+            android:ems="10"
+            android:hint="@string/email"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUp_Input_DoB" />
+
+        <EditText
+            android:id="@+id/SignUp_input_CPassword"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="46dp"
+            android:ems="10"
+            android:hint="@string/confirm_password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUp_Input_Password" />
+
+        <EditText
+            android:id="@+id/SignUp_Input_Password"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="46dp"
+            android:ems="10"
+            android:hint="@string/password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUp_Input_Email" />
+
+        <Button
+            android:id="@+id/SignUp_Button_SignUp"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="46dp"
+            android:hint="@string/sign_in"
+            android:onClick="onClick"
+            android:textColor="#F3F1F1"
+            android:textColorHint="#FAF6F6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUp_input_CPassword" />
+
+        <TextView
+            android:id="@+id/TextButton_SignUp"
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="121dp"
+            android:clickable="true"
+            android:onClick="onClick"
+            android:text="@string/already_have_an_account_sign_in"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUp_Button_SignUp"
+            tools:ignore="TextSizeCheck" />
+
+        <EditText
+            android:id="@+id/SignUp_Input_Name"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="46dp"
+            android:ems="10"
+            android:hint="@string/name"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/SignUp_Input_Surame"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="46dp"
+            android:ems="10"
+            android:hint="@string/surname"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUp_Input_Name" />
+
+        <EditText
+            android:id="@+id/SignUp_Input_DoB"
+            android:layout_width="320dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="46dp"
+            android:ems="10"
+            android:hint="@string/date_of_birth"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/SignUp_Input_Surame" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

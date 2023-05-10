@@ -84,7 +84,7 @@ class BasketActivity : Activity() {
             db.collection("Basket").document("Items").collection("Items").document(it)
                 .delete()
                 .addOnSuccessListener {
-                    totalPrice = totalPrice - basket.Price!!
+                    totalPrice -= basket.Price!!
                     if (count==1)
                     {
                         val intent3 = Intent(this, StoresActivity::class.java)
