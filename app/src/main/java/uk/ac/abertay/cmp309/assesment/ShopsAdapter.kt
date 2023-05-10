@@ -22,6 +22,7 @@ class ShopsAdapter(private val mList: ArrayList<Shop>, val onClickListener: (Vie
         val textViewRating: TextView = itemView.findViewById(R.id.ShopRating_textView)
         val textViewDistance : TextView = itemView.findViewById(R.id.ShopDist_textView)
         val textViewTRating : TextView = itemView.findViewById(R.id.ShopTRating_textView)
+        val textViewTDistance : TextView = itemView.findViewById(R.id.ShopTDist_textView)
 
     }
     //Create Views(Use inflate)
@@ -67,7 +68,8 @@ class ShopsAdapter(private val mList: ArrayList<Shop>, val onClickListener: (Vie
         // sets the text to the textview from our itemHolder class
         holder.textViewName.text = shop.Name
         holder.textViewRating.text = shop.Rating.toString()
-        holder.textViewDistance.text = shop.Distance
+        holder.textViewDistance.text = shop.Distance.toString()
+        holder.textViewTDistance.text = " km"
         holder.textViewTRating.text = "/5"
         holder.itemView.setOnClickListener {view -> onClickListener.invoke(view, shop)}
 

@@ -42,4 +42,5 @@
     <string name="please_rate_your_experience">Please rate your experience</string>
     <string name="submit_rating">Submit Rating</string>
     <string name="with">with:</string>
+    <string name="km"> km</string>
 </resources>
