@@ -31,4 +31,8 @@
     <string name="your_order_has_been_declined_your_account_will_not_be_charged">Your order has been declined. Your account will not be charged.</string>
     <string name="the_order_has_been_declined">Order declined</string>
     <string name="retry_order">Retry order</string>
+    <string name="order_accepted">Order Accepted</string>
+    <string name="has_accepted_your_order_and_your_account_has_been_charged_the_restaurant_is_preparing_your_items_order_will_arrive_shortly">has accepted your order and your account has been charged.\nThe restaurant is preparing your items.\nOrder will arrive shortly</string>
+    <string name="rate_order">Rate Order</string>
+    <string name="home">Home</string>
 </resources>
