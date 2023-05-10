@@ -1,6 +1,6 @@
 package uk.ac.abertay.cmp309.assesment
 
-import android.app.Activity---
+import android.app.Activity
 import com.google.android.gms.wallet.PaymentsClient
 import com.google.android.gms.wallet.Wallet
 import com.google.android.gms.wallet.WalletConstants
