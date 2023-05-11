@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.wallet.*
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -145,11 +146,9 @@ class BasketActivity : Activity() {
     fun onclickBack(view: View) {
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
-        val distance = intent.getIntExtra("Distance",0)
         val intent2 = Intent(this, MenuActivity::class.java)
         intent2.putExtra("Id", id )
         intent2.putExtra("Name", name )
-        intent2.putExtra("Distance", distance )
         startActivity(intent2)
 
     }
@@ -225,12 +224,10 @@ class BasketActivity : Activity() {
     private fun handleSuccess(paymentData: PaymentData) {
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
-        val distance = intent.getIntExtra("Distance",0)
         val intent2 = Intent(this, PlacedActivity::class.java)
         intent2.putExtra("Id", id )
         intent2.putExtra("Name", name )
         intent2.putExtra("Submit",false)
-        intent2.putExtra("Distance", distance)
         startActivity(intent2)
         db = FirebaseFirestore.getInstance()
         db.collection("Basket").document("Items").collection("Items")
@@ -246,18 +243,20 @@ class BasketActivity : Activity() {
         val paymentInformation = paymentData.toJson() ?: return
 
         try {
-            /*val Ordersadd = hashMapOf(
-                "Name" to ,
-                "Price" to item.Price,
-                "ItemId" to item.Id
-            )*/
+
             // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
             val paymentMethodData = JSONObject(paymentInformation).getJSONObject("paymentMethodData")
             val billingName = paymentMethodData.getJSONObject("info")
                 .getJSONObject("billingAddress").getString("name")
-            Log.d("BillingName", billingName)
-
-            //TODO: new activity and add to firestore as orders empty basket
+            val user = FirebaseAuth.getInstance().currentUser?.uid
+            val address = ""
+            val Ordersadd = hashMapOf(
+                "Name" to billingName,
+                "UserId" to user,
+                "Total" to totalPrice,
+                "RName" to name,
+                "Address" to address
+            )
 
             // Logging token string.
             Log.d("GooglePaymentToken", paymentMethodData

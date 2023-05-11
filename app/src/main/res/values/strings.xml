@@ -45,4 +45,8 @@
     <string name="km"> km</string>
     <string name="about">About: </string>
     <string name="soon">Soon</string>
+    <string name="new_user_please_enter_your_address">New user \nPlease enter your address</string>
+    <string name="address_line">Address Line</string>
+    <string name="autocomplete_address">Autocomplete Address</string>
+    <string name="submit">Submit</string>
 </resources>

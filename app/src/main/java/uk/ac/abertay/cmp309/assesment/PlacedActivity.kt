@@ -6,17 +6,32 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlin.math.roundToInt
 
 class PlacedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_placed)
         val text: TextView = findViewById(R.id.Accept_Name)
-        text.setText(intent.getStringExtra("Name"))
-        val distance = intent.getIntExtra("Distance",0)
-        val mintotalTime = distance * 3
-        val maxtotalTime = distance * 5
-        val time = "($mintotalTime-$maxtotalTime mins)"
+        text.text = intent.getStringExtra("Name")
+        val db = FirebaseFirestore.getInstance()
+        val id = intent.getStringExtra("Id")
+        if (id != null) {
+            db.collection("Shops").document(id).get()
+                .addOnSuccessListener {
+                    val distance = it.getDouble("Distance")
+                    val mintotalTime = distance?.times(18)
+                    val x = mintotalTime?.roundToInt()
+                    val maxtotalTime = distance?.times(20)
+                    val y = maxtotalTime?.roundToInt()
+                    val time = "($x-$y mins)"
+                    val timetext: TextView = findViewById(R.id.Accept_Soon_Text)
+                    timetext.text = time
+
+                }
+        }
+
     }
     fun onclickHome(view: View) {
         val intent2 = Intent(applicationContext, StoresActivity::class.java)
@@ -31,11 +46,9 @@ class PlacedActivity : AppCompatActivity() {
         }else {
             val id = intent.getStringExtra("Id")
             val name = intent.getStringExtra("Name")
-            val distance = intent.getIntExtra("Distance",0)
             val intent3 = Intent(this, RatingActivity::class.java)
             intent3.putExtra("Id", id)
             intent3.putExtra("Name", name)
-            intent3.putExtra("Distance", distance)
             startActivity(intent3)
         }
 

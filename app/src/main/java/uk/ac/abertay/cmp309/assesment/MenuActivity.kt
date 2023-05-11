@@ -125,12 +125,10 @@ class MenuActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     val id = intent.getStringExtra("Id")
                     val name = intent.getStringExtra("Name")
-                    val distance = intent.getIntExtra("Distance",0)
                     val intent2 = Intent(this, BasketActivity::class.java)
                     intent2.putExtra("Id", id )
                     intent2.putExtra("Name", name )
                     intent2.putExtra("Count", itemCount)
-                    intent2.putExtra("Distance", distance)
                     startActivity(intent2)
                 }
                 .addOnFailureListener {
