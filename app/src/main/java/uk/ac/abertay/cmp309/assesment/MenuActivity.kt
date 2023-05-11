@@ -57,7 +57,7 @@ class MenuActivity : AppCompatActivity() {
                 .addOnSuccessListener {
                     Toast.makeText(this,"Item added to basket",Toast.LENGTH_SHORT).show()
                     itemCount++
-                    totalPrice = totalPrice + item.Price!!
+                    totalPrice += item.Price!!
                 }
                 .addOnFailureListener {
                     Toast.makeText(this,"Please try another again later",Toast.LENGTH_SHORT).show()
@@ -123,12 +123,14 @@ class MenuActivity : AppCompatActivity() {
             db.collection("Basket").document("Total")
                 .set(priceadd)
                 .addOnSuccessListener {
-                    val id = intent.getStringExtra("Id2")
-                    val name = intent.getStringExtra("Name2")
+                    val id = intent.getStringExtra("Id")
+                    val name = intent.getStringExtra("Name")
+                    val distance = intent.getIntExtra("Distance",0)
                     val intent2 = Intent(this, BasketActivity::class.java)
                     intent2.putExtra("Id", id )
                     intent2.putExtra("Name", name )
-                    intent2.putExtra("Count",itemCount)
+                    intent2.putExtra("Count", itemCount)
+                    intent2.putExtra("Distance", distance)
                     startActivity(intent2)
                 }
                 .addOnFailureListener {

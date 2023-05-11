@@ -43,21 +43,42 @@
         android:id="@+id/Accept_Rate_Button"
         android:layout_width="150dp"
         android:layout_height="48dp"
-        android:layout_marginStart="225dp"
+        android:layout_marginStart="224dp"
         android:layout_marginTop="1dp"
         android:onClick="onclickRate"
         android:text="@string/rate_order"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Accept_Explain_Text" />
+        app:layout_constraintTop_toBottomOf="@+id/Accept_Soon_Text" />
 
     <Button
         android:id="@+id/Accept_Home_Button"
         android:layout_width="300dp"
         android:layout_height="48dp"
-        android:layout_marginStart="145dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="4dp"
         android:onClick="onclickHome"
         android:text="@string/home"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Accept_Rate_Button" />
+
+    <TextView
+        android:id="@+id/Accept_About_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="110dp"
+        android:text="@string/about"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Accept_Explain_Text" />
+
+    <TextView
+        android:id="@+id/Accept_Soon_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/soon"
+        android:textSize="24sp"
+        app:layout_constraintStart_toEndOf="@+id/Accept_About_Text"
+        app:layout_constraintTop_toBottomOf="@+id/Accept_Explain_Text" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

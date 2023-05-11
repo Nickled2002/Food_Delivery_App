@@ -94,8 +94,8 @@ class BasketActivity : Activity() {
                     {
                         if (count>1)
                         {
-                            val id = intent.getStringExtra("Id2")
-                            val name = intent.getStringExtra("Name2")
+                            val id = intent.getStringExtra("Id")
+                            val name = intent.getStringExtra("Name")
                             val ncount = count - 1
                             val intent2 = Intent(this, BasketActivity::class.java)
                             intent2.putExtra("Id", id )
@@ -145,9 +145,11 @@ class BasketActivity : Activity() {
     fun onclickBack(view: View) {
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
+        val distance = intent.getIntExtra("Distance",0)
         val intent2 = Intent(this, MenuActivity::class.java)
         intent2.putExtra("Id", id )
         intent2.putExtra("Name", name )
+        intent2.putExtra("Distance", distance )
         startActivity(intent2)
 
     }
@@ -223,10 +225,12 @@ class BasketActivity : Activity() {
     private fun handleSuccess(paymentData: PaymentData) {
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
+        val distance = intent.getIntExtra("Distance",0)
         val intent2 = Intent(this, PlacedActivity::class.java)
         intent2.putExtra("Id", id )
         intent2.putExtra("Name", name )
         intent2.putExtra("Submit",false)
+        intent2.putExtra("Distance", distance)
         startActivity(intent2)
         db = FirebaseFirestore.getInstance()
         db.collection("Basket").document("Items").collection("Items")

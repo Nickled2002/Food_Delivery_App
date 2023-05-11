@@ -43,4 +43,6 @@
     <string name="submit_rating">Submit Rating</string>
     <string name="with">with:</string>
     <string name="km"> km</string>
+    <string name="about">About: </string>
+    <string name="soon">Soon</string>
 </resources>
