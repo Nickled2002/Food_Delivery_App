@@ -65,16 +65,19 @@ class SignUpActivity : AppCompatActivity() {
                                         "UserId" to user,
                                         "Name" to Inname,
                                         "Surname" to Insurname,
+                                        "Added" to false,
                                         "DoB" to Indob
                                     )
-                                    db.collection("Users").add(inputUser).addOnCompleteListener {
-                                        if(it.isSuccessful) {
-                                            val intent = Intent(this, MainActivity::class.java)
-                                            startActivity(intent)
-                                        }else
-                                        {
-                                            Toast.makeText(this, "Service offline. Please try again later.", Toast.LENGTH_LONG).show()
-                                        }
+                                    if (user != null) {
+                                        db.collection("Users").document(user).set(inputUser)
+                                            .addOnCompleteListener {
+                                                if(it.isSuccessful) {
+                                                    val intent = Intent(this, MainActivity::class.java)
+                                                    startActivity(intent)
+                                                }else {
+                                                    Toast.makeText(this, "Service offline. Please try again later.", Toast.LENGTH_LONG).show()
+                                                }
+                                            }
                                     }
                                 }else{
                                     Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
