@@ -85,6 +85,12 @@ class BasketActivity : Activity() {
                 .delete()
                 .addOnSuccessListener {
                     totalPrice -= basket.Price!!
+                    val nPrice = hashMapOf(
+                        "TotalPrice" to totalPrice
+                    )
+                    db.collection("cities").document("LA")
+                        .set(nPrice)
+
                     if (count==1)
                     {
                         val intent3 = Intent(this, StoresActivity::class.java)
