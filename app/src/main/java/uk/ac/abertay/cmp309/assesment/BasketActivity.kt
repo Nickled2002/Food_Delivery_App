@@ -15,7 +15,6 @@ import com.google.android.gms.wallet.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import org.json.JSONException
-import org.json.JSONObject
 
 
 
@@ -244,24 +243,24 @@ class BasketActivity : Activity() {
 
         try {
 
-            // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
-            val paymentMethodData = JSONObject(paymentInformation).getJSONObject("paymentMethodData")
-            val billingName = paymentMethodData.getJSONObject("info")
-                .getJSONObject("billingAddress").getString("name")
             val user = FirebaseAuth.getInstance().currentUser?.uid
-            val address = ""
-            val Ordersadd = hashMapOf(
-                "Name" to billingName,
-                "UserId" to user,
-                "Total" to totalPrice,
-                "RName" to name,
-                "Address" to address
-            )
-
-            // Logging token string.
-            Log.d("GooglePaymentToken", paymentMethodData
-                .getJSONObject("tokenizationData")
-                .getString("token"))
+            db = FirebaseFirestore.getInstance()
+            if (user != null) {
+                db.collection("Users").document(user)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        val address = document.getString("Address")
+                        val billingName = document.getString("Name") + " " + document.getString("Surname")
+                        val Ordersadd = hashMapOf(
+                            "Name" to billingName,
+                            "UserId" to user,
+                            "Total" to totalPrice,
+                            "RName" to name,
+                            "Address" to address
+                        )
+                        db.collection("Orders").document().set(Ordersadd)
+                    }
+            }
 
         } catch (e: JSONException) {
             Log.e("handlePaymentSuccess", "Error: " + e.toString())

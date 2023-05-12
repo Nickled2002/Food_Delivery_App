@@ -46,6 +46,12 @@ class LocationActivity : AppCompatActivity() {
 
         }
     }
+    private fun converter (latitude : Double, longitude : Double) : String {
+        val geoCoder = Geocoder(this, Locale.getDefault())
+        val toaddress = geoCoder.getFromLocation(latitude, longitude, 1)
+        return toaddress?.get(0)?.locality ?: String()
+
+    }
 
 
     fun onclickGet(view: View) {
@@ -62,7 +68,9 @@ class LocationActivity : AppCompatActivity() {
 
                     val latitude = location.latitude
                     val longitude = location.longitude
+                    val toaddress = converter(latitude,longitude)
                     address.setText("Bell st Dundee DD1 1HG.")
+                    //address.setText(toaddress)
 
                 }
 
