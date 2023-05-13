@@ -15,7 +15,7 @@ import java.util.concurrent.Executors
 
 class ItemsAdapter (private val mList: ArrayList<Item>, val onClickListener: (Item) -> Unit) : RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-
+        //viewholder contains all views in the layout file
         val imageView: ImageView = itemView.findViewById(R.id.Item_Image)
         val textViewName: TextView = itemView.findViewById(R.id.ItemName_textView)
         val textViewDesc: TextView = itemView.findViewById(R.id.ItemDesc_textView)

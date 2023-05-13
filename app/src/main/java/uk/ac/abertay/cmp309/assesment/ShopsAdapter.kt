@@ -16,7 +16,7 @@ class ShopsAdapter(private val mList: ArrayList<Shop>, val onClickListener: (Vie
 
     //Inner class with initialised values
     inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-
+        //viewholder contains all views in the layout file
         val imageView: ImageView = itemView.findViewById(R.id.Shop_Image)
         val textViewName: TextView = itemView.findViewById(R.id.ShopName_textView)
         val textViewRating: TextView = itemView.findViewById(R.id.ShopRating_textView)

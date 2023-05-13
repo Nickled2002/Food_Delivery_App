@@ -30,24 +30,24 @@ class MainActivity : AppCompatActivity() {
 
 
             when (view.id) {
-                R.id.TextButton_SignUp -> {
+                R.id.TextButton_SignUp -> {//redirect to sign up activity
                     val intent = Intent(this, SignUpActivity::class.java)
                     startActivity(intent)
                 }
                 R.id.Button_Login -> {
                     val Inemail = Email.text.toString()
                     val Inpass = Password.text.toString()
-                    if (Inemail.isNotEmpty() && Inpass.isNotEmpty()) {
+                    if (Inemail.isNotEmpty() && Inpass.isNotEmpty()) {//authenticate user
                         firebaseAuth.signInWithEmailAndPassword(Inemail,Inpass).addOnCompleteListener{
-                            if (it.isSuccessful){
-                                val intent = Intent(this, LocationActivity::class.java)
+                            if (it.isSuccessful){//if credentials correct
+                                val intent = Intent(this, LocationActivity::class.java)//redirect user
                                 startActivity(intent)
-                            }else{
-                                Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                            }else{//notify user of error
+                                Toast.makeText(this, "Incorrect password or email", Toast.LENGTH_SHORT).show()
                             }
                         }
-                    }else{
-                        Toast.makeText(this, "Incorrect password or email", Toast.LENGTH_SHORT).show()
+                    }else{//notify for empty fields
+                        Toast.makeText(this, "Some fields are empty", Toast.LENGTH_SHORT).show()
                     }
 
 
@@ -56,6 +56,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 }
 
 

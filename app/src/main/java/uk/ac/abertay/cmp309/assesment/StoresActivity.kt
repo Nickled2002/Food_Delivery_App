@@ -3,12 +3,13 @@ package uk.ac.abertay.cmp309.assesment
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
-
-
+import com.google.firebase.ktx.Firebase
 
 
 class StoresActivity : AppCompatActivity() {
@@ -41,6 +42,7 @@ class StoresActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener() {
+        //checks for items in the collection
         db = FirebaseFirestore.getInstance()
         db.collection("Shops").orderBy("Rating",Query.Direction.DESCENDING)
             .addSnapshotListener(object : EventListener<QuerySnapshot>{
@@ -49,7 +51,7 @@ class StoresActivity : AppCompatActivity() {
                     error: FirebaseFirestoreException?)
                 {
                     if (error != null){
-
+                        //error handling
                         Log.e("Error",error.message.toString())
                         return
                     }
@@ -57,6 +59,7 @@ class StoresActivity : AppCompatActivity() {
                     for (dc : DocumentChange in value?.documentChanges!!){
 
                         if (dc.type == DocumentChange.Type.ADDED){
+                            //and adds them once to the list in the form of objects
 
                             shopsList.add(dc.document.toObject(Shop::class.java))
 
@@ -71,6 +74,14 @@ class StoresActivity : AppCompatActivity() {
             })
 
 
+
+
+    }
+
+    fun onClickSignOut(view: View) {
+        Firebase.auth.signOut()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
 
 
     }

@@ -17,7 +17,7 @@ class PlacedActivity : AppCompatActivity() {
         text.text = intent.getStringExtra("Name")
         val db = FirebaseFirestore.getInstance()
         val id = intent.getStringExtra("Id")
-        if (id != null) {
+        if (id != null) {//calculate average time to get to user
             db.collection("Shops").document(id).get()
                 .addOnSuccessListener {
                     val distance = it.getDouble("Distance")
@@ -39,11 +39,13 @@ class PlacedActivity : AppCompatActivity() {
 
     }
     fun onclickRate(view: View) {
+        //checks if the user has already inputted the rating
         val submit = intent.getBooleanExtra("Submit", false)
         if (submit)
-        {
+        {//if yes notify user
             Toast.makeText(this, "Rating already submitted.", Toast.LENGTH_SHORT).show()
         }else {
+            //redirect user to rating page
             val id = intent.getStringExtra("Id")
             val name = intent.getStringExtra("Name")
             val intent3 = Intent(this, RatingActivity::class.java)

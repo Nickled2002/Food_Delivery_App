@@ -20,6 +20,7 @@ class RatingActivity : AppCompatActivity() {
         text.setText(intent.getStringExtra("Name"))
     }
     fun onclickRate(view: View) {
+        //get information of the rating bar
         val ratingBar = findViewById<RatingBar>(R.id.Rating_Bar)
         if (ratingBar != null)
         {
@@ -27,6 +28,7 @@ class RatingActivity : AppCompatActivity() {
             val db = Firebase.firestore
             val id = intent.getStringExtra("Id")
             val name = intent.getStringExtra("Name")
+            //get current ratin of the store
             if (id != null) {
                 val path = db.collection("Shops").document(id)
                 var finalrating :Double
@@ -40,6 +42,7 @@ class RatingActivity : AppCompatActivity() {
                         numtot += 1
                         finalrating /= numtot
                         finalrating = Math.round(finalrating * 100.0) / 100.0
+                        //calcute new rating average and round result to two decimals
                         path.update(mapOf("Rating" to finalrating,"Ratings" to numtot))
                             .addOnSuccessListener {
                                 completed = true
@@ -57,13 +60,14 @@ class RatingActivity : AppCompatActivity() {
             }
 
 
-        }else{
+        }else{//empty field error handling
             Toast.makeText(this,"Please rate your order", Toast.LENGTH_SHORT).show()
         }
 
 
     }
     fun onclickCancel(view: View) {
+        //redirect to placed activity if user changes their mind
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
         val intent2 = Intent(this, PlacedActivity::class.java)

@@ -10,12 +10,12 @@ import org.json.JSONObject
 
 object PaymentsProcess {
 
-    //Setting up base request
+    //setting up base request
     private val baseRequest = JSONObject().apply {
         put("apiVersion", 2)
         put("apiVersionMinor", 0)
     }
-    //This is where you can add the gateway and merchant id to an account but for the assignment example will provide dummy values
+    //add the gateway and merchant id to an account but for the assignment example will provide dummy values
     private fun gatewayTokenizationSpecification() : JSONObject {
         return JSONObject().apply {
             put("type", "PAYMENT_GATEWAY")
@@ -29,7 +29,7 @@ object PaymentsProcess {
             )
         }
     }
-    //Determine the networks allowed
+    //determine the networks allowed
     private val allowedCardNetworks = JSONArray(listOf(
         "AMEX",
         "DISCOVER",
@@ -37,7 +37,7 @@ object PaymentsProcess {
         "JCB",
         "MASTERCARD",
         "VISA"))
-    //Determine the cards auth methods
+    //determine the cards auth methods
     private val allowedCardAuthMethods = JSONArray(listOf(
         "PAN_ONLY",
         "CRYPTOGRAM_3DS"))
@@ -58,6 +58,7 @@ object PaymentsProcess {
             put("parameters", parameters)
         }
     }
+    //binds card payment methods with the results of the gateway function
     private fun cardPaymentMethod(): JSONObject {
         val cardPaymentMethod = baseCardPaymentMethod()
         cardPaymentMethod.put("tokenizationSpecification", gatewayTokenizationSpecification())
@@ -66,6 +67,7 @@ object PaymentsProcess {
     }
 
     fun isReadyToPayRequest(): JSONObject? {
+        //checks the readiness of the payment system
         return try {
             baseRequest.apply {
                 put("allowedPaymentMethods", JSONArray().put(baseCardPaymentMethod()))
@@ -76,19 +78,20 @@ object PaymentsProcess {
         }
     }
 
-    //merchant info is set as example for the assesment
+    //merchant info is set as "example" for the assessment
     private val merchantInfo = JSONObject().apply {
         put("merchantName", "Example Merchant")
         put("merchantId", "01234567890123456789")
     }
 
+    //sets the information for the payment client
     fun createPaymentsClient(activity: Activity): PaymentsClient {
         val walletOptions = Wallet.WalletOptions.Builder()
             .setEnvironment(WalletConstants.ENVIRONMENT_TEST).build()
         return Wallet.getPaymentsClient(activity, walletOptions)
     }
 
-    //This is where you change the values
+    //set info of ammount owed for the payment
     @Throws(JSONException::class)
     private fun transactionInfo(price: String): JSONObject {
         return JSONObject().apply {
@@ -100,6 +103,7 @@ object PaymentsProcess {
 
     }
 
+    //set up Json request
     fun getRequestJson(price: Double): JSONObject? {
         return try {
             baseRequest.apply {

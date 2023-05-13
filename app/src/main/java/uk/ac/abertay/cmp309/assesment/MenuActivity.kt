@@ -45,12 +45,14 @@ class MenuActivity : AppCompatActivity() {
         EventChangeListener(shopsid)
     }
     private fun AddToBasket(item: Item ) {
+        //make hash of selected item
         val itemadd = hashMapOf(
             "Name" to item.Name,
             "Price" to item.Price,
             "ItemId" to item.Id
         )
 
+        //add item to the database
         item.Id?.let {
             db.collection("Basket").document("Items").collection("Items").document(it)
                 .set(itemadd)
@@ -60,6 +62,7 @@ class MenuActivity : AppCompatActivity() {
                     totalPrice += item.Price!!
                 }
                 .addOnFailureListener {
+                    //error handling notify user
                     Toast.makeText(this,"Please try another again later",Toast.LENGTH_SHORT).show()
                 }
         }
@@ -68,6 +71,7 @@ class MenuActivity : AppCompatActivity() {
     }
 
     private fun EventChangeListener(shopId: String? ) {
+        //checks for items in the collection
         db = FirebaseFirestore.getInstance()
         if (shopId != null) {
             db.collection("Menus").document(shopId).collection("Items")
@@ -77,7 +81,7 @@ class MenuActivity : AppCompatActivity() {
                         error: FirebaseFirestoreException?)
                     {
                         if (error != null){
-
+                            //error handling
                             Log.e("Error",error.message.toString())
                             return
                         }
@@ -85,6 +89,7 @@ class MenuActivity : AppCompatActivity() {
                         for (dc : DocumentChange in value?.documentChanges!!){
 
                             if (dc.type == DocumentChange.Type.ADDED){
+                                //and adds them once to the list in the form of objects
 
                                 itemsList.add(dc.document.toObject(Item::class.java))
 
@@ -112,6 +117,7 @@ class MenuActivity : AppCompatActivity() {
     fun onClickB(view: View) {
         if (itemCount==0)
         {
+            //if basket is empty notify user
             Toast.makeText(this,"Your basket is empty",Toast.LENGTH_SHORT).show()
         }
         else
@@ -119,12 +125,13 @@ class MenuActivity : AppCompatActivity() {
             val priceadd = hashMapOf(
                 "TotalPrice" to totalPrice
             )
-
+            //adds total price to the basket
             db.collection("Basket").document("Total")
                 .set(priceadd)
                 .addOnSuccessListener {
                     val id = intent.getStringExtra("Id")
                     val name = intent.getStringExtra("Name")
+                    //redirect user to basket activity
                     val intent2 = Intent(this, BasketActivity::class.java)
                     intent2.putExtra("Id", id )
                     intent2.putExtra("Name", name )
@@ -132,6 +139,7 @@ class MenuActivity : AppCompatActivity() {
                     startActivity(intent2)
                 }
                 .addOnFailureListener {
+                    //error handling
                     Toast.makeText(this,"Basket unavailable. Try again later",Toast.LENGTH_SHORT).show()
                 }
 

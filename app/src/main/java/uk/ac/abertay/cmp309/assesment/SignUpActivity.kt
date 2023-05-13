@@ -43,6 +43,7 @@ class SignUpActivity : AppCompatActivity() {
         if (view != null) {
             when(view.id) {
                 R.id.TextButton_SignUp -> {
+                    //redirect to main activity
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }
@@ -55,12 +56,16 @@ class SignUpActivity : AppCompatActivity() {
                     val Indob = DoB.text.toString()
 
                     if (Inemail.isNotEmpty() && Inpass.isNotEmpty() && Incpass.isNotEmpty() && Inname.isNotEmpty() && Insurname.isNotEmpty() && Indob.isNotEmpty() ) {
+                        //check for empty field
                         if (Inpass == Incpass){
+                            //check for password and conform password being the same
 
                             firebaseAuth.createUserWithEmailAndPassword(Inemail, Inpass).addOnCompleteListener{
+                                //crear new user
                                 if(it.isSuccessful){
                                     val user = FirebaseAuth.getInstance().currentUser?.uid
                                     val db = Firebase.firestore
+                                    //create hashmap of details
                                     val inputUser = hashMapOf(
                                         "UserId" to user,
                                         "Name" to Inname,
@@ -69,24 +74,30 @@ class SignUpActivity : AppCompatActivity() {
                                         "DoB" to Indob
                                     )
                                     if (user != null) {
+                                        //add new user to database
                                         db.collection("Users").document(user).set(inputUser)
                                             .addOnCompleteListener {
                                                 if(it.isSuccessful) {
+                                                    //if ok redirect to main page
                                                     val intent = Intent(this, MainActivity::class.java)
                                                     startActivity(intent)
                                                 }else {
+                                                    //error handling
                                                     Toast.makeText(this, "Service offline. Please try again later.", Toast.LENGTH_LONG).show()
                                                 }
                                             }
                                     }
                                 }else{
+                                    //error handling
                                     Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
                                 }
                             }
                         }else{
+                            //error handling
                             Toast.makeText(this, "Password and Confirm Password do not match", Toast.LENGTH_SHORT).show()
                         }
                     }else {
+                        //error handling
                         Toast.makeText(this, "Fields are empty", Toast.LENGTH_SHORT).show()
                     }
                 }

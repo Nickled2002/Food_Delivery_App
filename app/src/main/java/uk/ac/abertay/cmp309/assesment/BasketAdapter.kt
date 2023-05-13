@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 class BasketAdapter (private val mList: ArrayList<Basket>, val onClickListener: (Basket) -> Unit) : RecyclerView.Adapter<BasketAdapter.ViewHolder>()
     {
         inner class ViewHolder(ItemView: View) : RecyclerView.ViewHolder(ItemView) {
-
+            //viewholder contains all views in the layout file
             val textViewName: TextView = itemView.findViewById(R.id.BasketName_textView)
             val textViewPrice: TextView = itemView.findViewById(R.id.BasketPrice_textView)
             val textViewEuro : TextView = itemView.findViewById(R.id.BasketMoney_textView)

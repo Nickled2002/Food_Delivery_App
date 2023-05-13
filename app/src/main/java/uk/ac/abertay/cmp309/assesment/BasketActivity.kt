@@ -44,9 +44,10 @@ class BasketActivity : Activity() {
         db = FirebaseFirestore.getInstance()
         db.collection("Basket").document("Total").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                //get basket total price from firestore when the activity is created
                 val document = task.result
                 totalPrice = document.get("TotalPrice") as Double
-                text.setText(totalPrice.toString())
+                text.setText(totalPrice.toString())//set it as the text of the text field
             } else {
                 Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
             }
@@ -55,7 +56,7 @@ class BasketActivity : Activity() {
 
 
         //initialise shops
-        itemsList = arrayListOf()
+        itemsList = arrayListOf()//create list of items and call the basket adapter
         basketAdapter = BasketAdapter(itemsList, onClickListener = {
                 basket -> removeFromBasket(basket,count)
         })
@@ -65,9 +66,9 @@ class BasketActivity : Activity() {
 
 
         eventChangeListener()
-
+        //creat payment client
         paymentsClient = PaymentsProcess.createPaymentsClient(this)
-
+        //g pay button clickable
         gbutton.isClickable = false
 
         isGooglePayAvailable()
@@ -84,21 +85,22 @@ class BasketActivity : Activity() {
             db.collection("Basket").document("Items").collection("Items").document(it)
                 .delete()
                 .addOnSuccessListener {
-                    totalPrice -= basket.Price!!
+                    //delete specific document from the basket list
+                    totalPrice -= basket.Price!!//calculate new price
                     val nPrice = hashMapOf(
                         "TotalPrice" to totalPrice
                     )
-                    db.collection("cities").document("LA")
+                    db.collection("Basket").document("Total")
                         .set(nPrice)
-
-                    if (count==1)
+                    //update database with new price
+                    if (count==1)// if no items in the basket  go to the main menu
                     {
                         val intent3 = Intent(this, StoresActivity::class.java)
                         startActivity(intent3)
                     }
                     else
                     {
-                        if (count>1)
+                        if (count>1)//if there are still items in the basket reload page
                         {
                             val id = intent.getStringExtra("Id")
                             val name = intent.getStringExtra("Name")
@@ -112,12 +114,13 @@ class BasketActivity : Activity() {
                     }
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()//error handling
                 }
         }
 
     }
     private fun eventChangeListener() {
+        //checks for items in the collection
         db = FirebaseFirestore.getInstance()
         db.collection("Basket").document("Items").collection("Items")
             .addSnapshotListener(object : EventListener<QuerySnapshot> {
@@ -126,7 +129,7 @@ class BasketActivity : Activity() {
                     error: FirebaseFirestoreException?
                 ) {
                     if (error != null) {
-
+                        //error handling
                         Log.e("Error", error.message.toString())
                         return
                     }
@@ -134,6 +137,7 @@ class BasketActivity : Activity() {
                     for (dc: DocumentChange in value?.documentChanges!!) {
 
                         if (dc.type == DocumentChange.Type.ADDED) {
+                            //and adds them once to the list in the form of objects
 
                             itemsList.add(dc.document.toObject(Basket::class.java))
 
@@ -148,7 +152,7 @@ class BasketActivity : Activity() {
             })
     }
 
-    fun onclickBack(view: View) {
+    fun onclickBack(view: View) {//goes to previous page
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
         val intent2 = Intent(this, MenuActivity::class.java)
@@ -175,15 +179,16 @@ class BasketActivity : Activity() {
     }
 
     private fun setGooglePayAvailable(available: Boolean) {
-        if (available) {
+        if (available) {//if google pay is available make the button clickable
             gbutton.isClickable = true
-        } else {
+        } else {//error handling
+            gbutton.isClickable = false
             Toast.makeText(this,"Google Pay is not available on this device", Toast.LENGTH_LONG).show()
         }
     }
 
 
-    private fun requestPayment() {
+    private fun requestPayment() {//get payment data
         gbutton.isClickable = false
         val totalPrice : Double = totalPrice
 
@@ -194,25 +199,25 @@ class BasketActivity : Activity() {
         }
         val request = PaymentDataRequest.fromJson(paymentDataRequestJson.toString())
         if (request != null) {
-            AutoResolveHelper.resolveTask(
+            AutoResolveHelper.resolveTask(//set the request for the payment
                 paymentsClient.loadPaymentData(request), this, LPD_REQUEST_CODE)
         }
     }
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            // Value passed in AutoResolveHelper
+        when (requestCode) {//request results
+            // Depending on lpdrequest code
             LPD_REQUEST_CODE -> {
                 when (resultCode) {
-                    RESULT_OK ->
-                        data?.let { intent ->
+                    RESULT_OK ->//payment has gone through
+                        data?.let { intent ->// successful payments
                             PaymentData.getFromIntent(intent)?.let(::handleSuccess)
                         }
 
-                    RESULT_CANCELED -> {
+                    RESULT_CANCELED -> {//handle cancelled payments
                         handleFailure()
                     }
 
-                    AutoResolveHelper.RESULT_ERROR -> {
+                    AutoResolveHelper.RESULT_ERROR -> {//handle declined payment
                         AutoResolveHelper.getStatusFromIntent(data)?.let {
                             handleFailure()
                         }
@@ -227,14 +232,15 @@ class BasketActivity : Activity() {
     }
 
     private fun handleSuccess(paymentData: PaymentData) {
+        //prepare intent for next page
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
         val intent2 = Intent(this, PlacedActivity::class.java)
         intent2.putExtra("Id", id )
         intent2.putExtra("Name", name )
         intent2.putExtra("Submit",false)
-        startActivity(intent2)
-        db = FirebaseFirestore.getInstance()
+
+        db = FirebaseFirestore.getInstance()//deletes all items in the basket that have been ordered
         db.collection("Basket").document("Items").collection("Items")
             .whereNotEqualTo("Name",null)
             .get()
@@ -247,7 +253,7 @@ class BasketActivity : Activity() {
 
         val paymentInformation = paymentData.toJson() ?: return
 
-        try {
+        try {//creates order record in the database
 
             val user = FirebaseAuth.getInstance().currentUser?.uid
             db = FirebaseFirestore.getInstance()
@@ -268,17 +274,17 @@ class BasketActivity : Activity() {
                     }
             }
 
-        } catch (e: JSONException) {
+        } catch (e: JSONException) {//error handling
             Log.e("handlePaymentSuccess", "Error: " + e.toString())
         }
 
 
-
+        startActivity(intent2)//start prepared intent
     }
-    private fun handleFailure() {
+    private fun handleFailure() {//handle failure function
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
-        val intent3 = Intent(this, DeclineActivity::class.java)
+        val intent3 = Intent(this, DeclineActivity::class.java)//go to DeclineActivity
         intent3.putExtra("Id", id )
         intent3.putExtra("Name", name )
         startActivity(intent3)

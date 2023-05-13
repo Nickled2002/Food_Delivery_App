@@ -31,13 +31,13 @@ class LocationActivity : AppCompatActivity() {
         val user = FirebaseAuth.getInstance().currentUser?.uid
         val db = Firebase.firestore
         address = findViewById(R.id.Edit_Text_Address)
-        if (user != null) {
+        if (user != null) {//checks if the user has already inputted an address
             db.collection("Users").document(user)
                 .get()
                 .addOnSuccessListener { document ->
                     val added = document.getBoolean("Added")
                     if (added!!)
-                    {
+                    {// if true redirect to the next page
                         val intent = Intent(this, StoresActivity::class.java)
                         startActivity(intent)
                     }
@@ -47,6 +47,7 @@ class LocationActivity : AppCompatActivity() {
         }
     }
     private fun converter (latitude : Double, longitude : Double) : String {
+        //coverts longitude and latitude to an address
         val geoCoder = Geocoder(this, Locale.getDefault())
         val toaddress = geoCoder.getFromLocation(latitude, longitude, 1)
         return toaddress?.get(0)?.locality ?: String()
@@ -56,15 +57,17 @@ class LocationActivity : AppCompatActivity() {
 
     fun onclickGet(view: View) {
         val permission = checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-        if (permission != PackageManager.PERMISSION_GRANTED) {
+        if (permission != PackageManager.PERMISSION_GRANTED) {//checks if the program has necessary permissions if not
             requestPermissions(
+                //request permission
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 LOCATION_PERMISSION_REQUEST
             )
         }
-        fusedLocationClient.lastLocation
+        fusedLocationClient.lastLocation// get location in latitude and longitude
             .addOnSuccessListener { location : Location? ->
                 if (location != null) {
+                    //get results and input the in the converter
 
                     val latitude = location.latitude
                     val longitude = location.longitude
@@ -75,22 +78,23 @@ class LocationActivity : AppCompatActivity() {
                 }
 
             }
-            .addOnFailureListener {
+            .addOnFailureListener {//Error handling
                 Toast.makeText(this,"Please connect to the network and try again",Toast.LENGTH_SHORT).show()
             }
     }
 
 
     fun onclickSubmit(view: View) {
+        //gets what is written in the text field
         val inAddy = address.text.toString()
         val user = FirebaseAuth.getInstance().currentUser?.uid
-        if (inAddy.isNotEmpty()) {
+        if (inAddy.isNotEmpty()) {//checks if field is empty
             val db = Firebase.firestore
             val data = hashMapOf(
                 "Added" to true,
                 "Address" to inAddy
             )
-            if (user != null) {
+            if (user != null) {//updates the database record to contain the address
                 db.collection("Users").document(user)
                     .set(data, SetOptions.merge())
                     .addOnSuccessListener {
@@ -103,7 +107,7 @@ class LocationActivity : AppCompatActivity() {
             }
 
 
-        }else{
+        }else{//if field empty alert user
             Toast.makeText(this,"Please enter your address",Toast.LENGTH_SHORT).show()
         }
 

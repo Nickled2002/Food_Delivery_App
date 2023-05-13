@@ -11,7 +11,7 @@ class DeclineActivity : AppCompatActivity() {
         setContentView(R.layout.activity_decline)
     }
 
-    fun onclickRetry(view: View) {
+    fun onclickRetry(view: View) {//redirect to menu activity to retry order
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
         val intent2 = Intent(this, MenuActivity::class.java)
@@ -21,7 +21,7 @@ class DeclineActivity : AppCompatActivity() {
 
     }
 
-    fun onclickHome(view: View) {
+    fun onclickHome(view: View) {//redirect to home page
         val intent = Intent(this, StoresActivity::class.java)
         startActivity(intent)
 
