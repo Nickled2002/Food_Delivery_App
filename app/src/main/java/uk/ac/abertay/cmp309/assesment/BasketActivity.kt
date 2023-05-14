@@ -87,6 +87,8 @@ class BasketActivity : Activity() {
                 .addOnSuccessListener {
                     //delete specific document from the basket list
                     totalPrice -= basket.Price!!//calculate new price
+                    totalPrice = Math.round(totalPrice * 10.0) / 10.0
+
                     val nPrice = hashMapOf(
                         "TotalPrice" to totalPrice
                     )
@@ -282,6 +284,16 @@ class BasketActivity : Activity() {
         startActivity(intent2)//start prepared intent
     }
     private fun handleFailure() {//handle failure function
+        db = FirebaseFirestore.getInstance()//deletes all items in the basket that have been ordered
+        db.collection("Basket").document("Items").collection("Items")
+            .whereNotEqualTo("Name",null)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val docId = document.id
+                    db.collection("Basket").document("Items").collection("Items").document(docId).delete()
+                }
+            }
         val id = intent.getStringExtra("Id")
         val name = intent.getStringExtra("Name")
         val intent3 = Intent(this, DeclineActivity::class.java)//go to DeclineActivity

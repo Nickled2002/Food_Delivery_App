@@ -79,6 +79,7 @@ class StoresActivity : AppCompatActivity() {
     }
 
     fun onClickSignOut(view: View) {
+        //sign out user and redirect to starting page
         Firebase.auth.signOut()
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
