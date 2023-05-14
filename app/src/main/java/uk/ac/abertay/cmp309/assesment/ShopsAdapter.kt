@@ -1,4 +1,5 @@
 package uk.ac.abertay.cmp309.assesment
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -35,6 +36,7 @@ class ShopsAdapter(private val mList: ArrayList<Shop>, val onClickListener: (Vie
     }
 
     //Populate data in recycler
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val shop: Shop = mList[position]
@@ -52,7 +54,7 @@ class ShopsAdapter(private val mList: ArrayList<Shop>, val onClickListener: (Vie
                     val `in` = java.net.URL(shop.Image).openStream()
                     image = BitmapFactory.decodeStream(`in`)
 
-                    //and put original and change imageView
+                    //Change image view
                     handler.post {
                         holder.imageView.setImageBitmap(image)
                     }

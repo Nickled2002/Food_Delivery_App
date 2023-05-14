@@ -55,7 +55,7 @@ class ItemsAdapter (private val mList: ArrayList<Item>, val onClickListener: (It
                     val `in` = java.net.URL(item.Image).openStream()
                     image = BitmapFactory.decodeStream(`in`)
 
-                    //and put original and change imageView
+                    //Change image view
                     handler.post {
                         holder.imageView.setImageBitmap(image)
                     }
