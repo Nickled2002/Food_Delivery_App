@@ -73,7 +73,6 @@ class LocationActivity : AppCompatActivity() {
                     val longitude = location.longitude
                     val toaddress = converter(latitude,longitude)
                     address.setText("Bell st Dundee DD1 1HG.")
-                    //address.setText(toaddress)
 
                 }
 
